@@ -1,0 +1,55 @@
+$dark-gray: #333333;
+$light-gray: #656565;
+$gold: #f8ae00;
+
+$min_width: 320px;
+$max_width: 1900px;
+
+@mixin transition($transition) {
+  -webkit-transition: $transition;
+  -moz-transition: $transition;
+  -ms-transition: $transition;
+  -o-transition: $transition;
+  transition: $transition;
+}
+
+@function strip-unit($value) {
+@return $value / ($value * 0 + 1);
+
+}
+
+@mixin fluid-type($min-vw, $max-vw, $min-font-size, $max-font-size) {
+  $u1: unit($min-vw);
+  $u2: unit($max-vw);
+  $u3: unit($min-font-size);
+  $u4: unit($max-font-size);
+  @if $u1 == $u2 and $u1 == $u3 and $u1 == $u4 {
+    & {
+      font-size: $min-font-size;
+      @media screen and (min-width: $min-vw) {
+        font-size: calc(#{$min-font-size} + #{strip-unit($max-font-size - $min-font-size)} * ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)}));
+      }
+      @media screen and (min-width: $max-vw) {
+        font-size: $max-font-size;
+      }
+    }
+  }
+}
+
+@mixin line-height($min-vw, $max-vw, $min-line-height, $max-line-height) {
+    $u1: unit($min-vw);
+    $u2: unit($max-vw);
+    $u3: unit($min-line-height);
+    $u4: unit($max-line-height);
+    @if $u1 == $u2 and $u1 == $u3 and $u1 == $u4 {
+      & {
+        line-height: $min-line-height;
+        @media screen and (min-width: $min-vw) {
+            line-height: calc(#{$min-line-height} + #{strip-unit($max-line-height - $min-line-height)} * ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)}));
+        }
+        @media screen and (min-width: $max-vw) {
+            line-height: $max-line-height;
+        }
+      }
+    }
+  }
